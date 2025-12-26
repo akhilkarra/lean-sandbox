@@ -1,6 +1,6 @@
 /-
-  Examples and code from the Dependent Type Theory chapter
-  of Theorem Proving in Lean
+  Examples and code from the Dependent Type
+  Theory chapter of Theorem Proving in Lean
 -/
 
 
@@ -88,3 +88,22 @@ namespace TypesAsObjects
   def J.{v} (α : Type v) : Type v := Prod α α
   #check J
 end TypesAsObjects
+
+namespace FunctionAbstractionAndEvaluation
+  /-
+    We use the fun or λ keyword to create a
+    function from an expression.
+
+    These keywords are aliases.
+
+    Either type => or ↦ using slash `ma`
+  -/
+  #check fun (x : Nat) ↦ x + 5
+  #check λ (x : Nat) => x + 5
+  -- I like fun and ↦ personally.
+  -- Like with SML/NJ, we have type inference
+  #check fun x ↦ x + 5
+  #eval (fun x ↦ x + 5) 10
+  #check fun x y ↦ if not y then x + 1 else x + 2
+  #check fun α β γ (f : α → β) (g : β → γ) x ↦ g (f x)
+end FunctionAbstractionAndEvaluation
