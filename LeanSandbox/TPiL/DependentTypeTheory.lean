@@ -137,6 +137,30 @@ namespace LocalDefinitions
     not. In contrast, the let expression acts as
     an imperative substitution declaration,
     allowing Lean to make sense of the function
-    declaration.
+    definition.
   -/
 end LocalDefinitions
+
+namespace VariablesAndSections
+  /-
+    The `variable` keyword can help clean up
+    functions that reuse the same, well,
+    variables
+
+    The `section` keyword can limit the scope
+    of defined variables
+  -/
+  section useful
+    variable (α β γ : Type)
+    variable (g : β → γ) (f : α → β) (h : α → α)
+    variable (x : α)
+
+    def compose := g (f x)
+    def doTwice := h (h x)
+    def doThrice := h (h (h x))
+
+    #print compose
+    #print doTwice
+    #print doThrice
+  end useful
+end VariablesAndSections
