@@ -1,5 +1,11 @@
 # Lean 4 Sandbox
 
+[![CI](https://github.com/akhilkarra/lean-sandbox/actions/workflows/ci.yml/badge.svg)](https://github.com/akhilkarra/lean-sandbox/actions/workflows/ci.yml)
+[![Lean CI](https://github.com/akhilkarra/lean-sandbox/actions/workflows/lean_action_ci.yml/badge.svg)](https://github.com/akhilkarra/lean-sandbox/actions/workflows/lean_action_ci.yml)
+[![Lean Version](https://img.shields.io/badge/Lean-v4.26.0-blue)](https://github.com/leanprover/lean4/releases/tag/v4.26.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+
 A minimal sandbox project for learning Lean 4 formal verification and functional programming.
 
 ## What is This?
