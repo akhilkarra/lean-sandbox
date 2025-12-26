@@ -44,3 +44,47 @@ namespace SimpleTypeTheory
   #eval m + 2
   #eval b1 && b2
 end SimpleTypeTheory
+
+namespace TypesAsObjects
+  def α : Type := Nat
+  def β : Type := Bool
+  def F : Type → Type := List
+  def G : Type → Type → Type := Prod
+
+  #check α
+  #check F α
+  #check F Nat
+  #check G α
+  #check G α β
+  #check G α Nat
+  #check α × β
+  #check Nat × Nat
+  #check List α
+  #check List Nat
+
+  #check Type
+  #check Type 1
+  #check Type 2
+  #check Type 3
+  /-
+    Lean has an infinite hierarchy of types.
+    What does this mean?
+
+    Type 0 can be thought of as a universe of
+    small or "ordinary" types. Type 1 is a
+    larger universe containing Type 0, Type 2
+    an even larger one containing Type 1, and
+    so on infinitely.
+  -/
+
+  #check List   -- notice how LEAN deals with polymorphism
+
+  /- How to define polymorphism ourselves -/
+  /- Option 1: use universe keyword -/
+  universe u
+  def H (α : Type u) : Type u := Prod α α
+  #check H
+  /- Option 2: specify universe parameters -/
+  def J.{v} (α : Type v) : Type v := Prod α α
+  #check J
+end TypesAsObjects
