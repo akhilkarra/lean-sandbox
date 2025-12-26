@@ -107,3 +107,13 @@ namespace FunctionAbstractionAndEvaluation
   #check fun x y ↦ if not y then x + 1 else x + 2
   #check fun α β γ (f : α → β) (g : β → γ) x ↦ g (f x)
 end FunctionAbstractionAndEvaluation
+
+namespace Definitions
+  def double (x : Nat) := x + x
+  #eval double 3
+  def doubleFun := fun x : Nat ↦ x + x
+  #eval doubleFun 3
+  def compose (α β γ : Type) (g : β → γ) (f : α → β) (x : α) := g (f x)
+  def square (x : Nat) : Nat := x * x
+  #eval compose Nat Nat Nat double square 3
+end Definitions
