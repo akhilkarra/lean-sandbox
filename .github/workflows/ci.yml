@@ -1,0 +1,135 @@
+name: CI
+
+# Run on push to main, pull requests, and manual trigger
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+      fail-fast: false
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install Elan (Lean version manager)
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+      
+      - name: Verify Lean installation
+        run: |
+          lean --version
+          lake --version
+      
+      - name: Cache Lake dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            .lake
+            ~/.elan
+          key: ${{ runner.os }}-lean-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+          restore-keys: |
+            ${{ runner.os }}-lean-${{ hashFiles('lean-toolchain') }}-
+            ${{ runner.os }}-lean-
+      
+      - name: Update Lake dependencies
+        run: lake update
+      
+      - name: Build project
+        run: lake build
+      
+      - name: Run tests
+        run: lake exe test
+      
+      - name: Run main executable
+        run: lake exe lean-sandbox
+      
+      - name: Check for warnings
+        run: |
+          echo "Verifying all theorems..."
+          lake build --verbose 2>&1 | tee build.log
+          if grep -i "warning" build.log; then
+            echo "⚠️ Warnings found in build"
+            exit 0  # Don't fail on warnings, just notify
+          else
+            echo "✓ No warnings found"
+          fi
+
+  lint:
+    name: Lint and Format Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install Elan
+        run: |
+          curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+      
+      - name: Cache Lake dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            .lake
+            ~/.elan
+          key: ${{ runner.os }}-lean-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}
+      
+      - name: Check file structure
+        run: |
+          echo "Checking project structure..."
+          if [ ! -f "lakefile.toml" ]; then
+            echo "❌ lakefile.toml not found"
+            exit 1
+          fi
+          if [ ! -f "lean-toolchain" ]; then
+            echo "❌ lean-toolchain not found"
+            exit 1
+          fi
+          echo "✓ Project structure looks good"
+      
+      - name: Verify all files compile
+        run: lake build
+
+  docs-check:
+    name: Documentation Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Check README exists
+        run: |
+          if [ ! -f "README.md" ]; then
+            echo "❌ README.md not found"
+            exit 1
+          fi
+          echo "✓ README.md exists"
+      
+      - name: Check for doc comments
+        run: |
+          echo "Checking for documentation comments..."
+          # Check that .lean files have doc comments
+          if grep -r "^/-!" LeanSandbox/ >/dev/null 2>&1; then
+            echo "✓ Found module documentation"
+          else
+            echo "⚠️ Consider adding module documentation (/-! ... -/)"
+          fi
+          
+          if grep -r "^/--" LeanSandbox/ >/dev/null 2>&1; then
+            echo "✓ Found definition documentation"
+          else
+            echo "⚠️ Consider adding definition documentation (/-- ... -/)"
+          fi

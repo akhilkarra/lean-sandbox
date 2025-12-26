@@ -1,0 +1,27 @@
+# Lean Sandbox Project Configuration
+# A well-structured Lean 4 project following best practices
+
+name = "lean-sandbox"
+version = "0.1.0"
+keywords = ["education", "formal-verification", "proof-assistant", "sandbox"]
+description = "A sandbox project for experimenting with Lean 4 formal verification and proofs"
+license = "MIT"
+readme = "README.md"
+
+# Default targets to build
+defaultTargets = ["LeanSandbox", "lean-sandbox"]
+
+# Main library containing all our modules
+[[lean_lib]]
+name = "LeanSandbox"
+
+# Main executable
+[[lean_exe]]
+name = "lean-sandbox"
+root = "Main"
+
+# Test runner executable
+[[lean_exe]]
+name = "test"
+root = "Test"
+supportInterpreter = true
