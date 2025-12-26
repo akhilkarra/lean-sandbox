@@ -117,3 +117,26 @@ namespace Definitions
   def square (x : Nat) : Nat := x * x
   #eval compose Nat Nat Nat double square 3
 end Definitions
+
+namespace LocalDefinitions
+  #check let y := 2 + 2; y * y
+  #eval let y:= 2 + 2; y * y
+  def twiceDouble (x : Nat) : Nat :=
+    let y := x + x  -- No need of ; with newlines
+    y * y
+  #eval twiceDouble 2
+  def foo :=
+    let a := Nat
+    fun x : a ↦ x + 2
+  -- def bar := (fun a ↦ fun x : a ↦ x + 2) Nat
+  /-
+    foo works but bar doesn't.
+
+    This is because bar's lambda declaration
+    needs to type check to make sense but it does
+    not. In contrast, the let expression acts as
+    an imperative substitution declaration,
+    allowing Lean to make sense of the function
+    declaration.
+  -/
+end LocalDefinitions
