@@ -15,7 +15,7 @@ This is a clean workspace for working through Lean 4 documentation and experimen
 Work through these in order:
 
 1. **[Theorem Proving in Lean 4 (TPiL)](https://lean-lang.org/theorem_proving_in_lean4/)** - Start here to learn proof basics
-2. **[Mathematics in Lean (MiL)](https://leanprover-community.github.io/mathematics_in_lean/)** - Apply Lean to mathematical reasoning  
+2. **[Mathematics in Lean (MiL)](https://leanprover-community.github.io/mathematics_in_lean/)** - Apply Lean to mathematical reasoning
 3. **[Functional Programming in Lean (FPiL)](https://lean-lang.org/functional_programming_in_lean/)** - Use Lean as a programming language
 
 ## Project Structure
@@ -89,7 +89,7 @@ Use `Test.lean` for quick experiments and the `#check` and `#eval` commands to e
 
 GitHub Actions automatically verifies all proofs on every push:
 - ✓ Builds the project
-- ✓ Runs the executable  
+- ✓ Runs the executable
 - ✓ Checks for errors
 
 See [`.github/workflows/ci.yml`](.github/workflows/ci.yml)

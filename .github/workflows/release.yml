@@ -17,28 +17,28 @@ jobs:
             artifact_name: lean-sandbox-linux
           - os: macos-latest
             artifact_name: lean-sandbox-macos
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Install Elan
         run: |
           curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
-      
+
       - name: Build project
         run: |
           lake update
           lake build
-      
+
       - name: Create artifact
         run: |
           mkdir -p artifacts
           cp .lake/build/bin/lean-sandbox artifacts/${{ matrix.artifact_name }}
           cp .lake/build/bin/test artifacts/test-${{ matrix.artifact_name }}
           chmod +x artifacts/*
-      
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:

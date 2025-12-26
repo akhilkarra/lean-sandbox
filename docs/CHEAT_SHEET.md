@@ -161,7 +161,7 @@ theorem example (p q : Prop) : p ∨ q → q ∨ p := by
 ```lean
 theorem example (n : Nat) : property n := by
   induction n with
-  | zero => 
+  | zero =>
     -- Base case: prove for 0
     sorry
   | succ n ih =>

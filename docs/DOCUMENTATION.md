@@ -37,7 +37,7 @@ example : 1 + 1 = 2 := rfl
 Document all public definitions with `/-- ... -/`:
 
 ```lean
-/-- 
+/--
 A function that adds two natural numbers.
 
 This is the standard addition on natural numbers, defined recursively.
@@ -50,7 +50,7 @@ def add (n m : Nat) : Nat := n + m
 Theorems should be documented with their statement and meaning:
 
 ```lean
-/-- 
+/--
 ✓ Theorem: Addition is commutative.
 
 For any natural numbers `n` and `m`, we have `n + m = m + n`.

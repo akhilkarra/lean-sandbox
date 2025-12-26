@@ -534,7 +534,7 @@ theorem tricky : complicated_statement := by
 lake build doc
 
 # For now, write good docstrings:
-/-- 
+/--
 This function does X.
 
 ## Example

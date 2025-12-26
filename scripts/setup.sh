@@ -22,7 +22,7 @@ echo "✓ Elan is installed"
 echo "📦 Lean version:"
 lean --version
 
-# Check Lake version  
+# Check Lake version
 echo "📦 Lake version:"
 lake --version
 
